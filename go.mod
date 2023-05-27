@@ -1,4 +1,4 @@
-module golang-rabbitmq
+module github.com/oleone/golang-rabbitmq
 
 go 1.18
 

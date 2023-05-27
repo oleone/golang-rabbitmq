@@ -1,6 +1,6 @@
 package usecase
 
-import "golang-rabbitmq/entity"
+import "github.com/oleone/golang-rabbitmq/entity"
 
 type CreateProductInputDto struct {
 	Name  string

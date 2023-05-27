@@ -2,7 +2,8 @@ package repository
 
 import (
 	"database/sql"
-	"golang-rabbitmq/entity"
+
+	"github.com/oleone/golang-rabbitmq/entity"
 )
 
 type ProductRepositoryMysql struct {
