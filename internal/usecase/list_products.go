@@ -1,11 +1,11 @@
 package usecase
 
-import "github.com/oleone/golang-rabbitmq/entity"
+import "github.com/oleone/golang-rabbitmq/internal/entity"
 
 type ListProductsOutputDto struct {
-	ID    string
-	Name  string
-	Price float64
+	ID    string  `json:"id"`
+	Name  string  `json:"name"`
+	Price float64 `json:"price"`
 }
 
 type ListProductsUseCase struct {

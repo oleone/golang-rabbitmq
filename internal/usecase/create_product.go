@@ -1,23 +1,31 @@
 package usecase
 
-import "github.com/oleone/golang-rabbitmq/entity"
+import (
+	"github.com/oleone/golang-rabbitmq/internal/entity"
+)
 
 type CreateProductInputDto struct {
-	Name  string
-	Price float64
+	Name  string  `json:"name"`
+	Price float64 `json:"price"`
 }
 
 type CreateProductOutputDto struct {
-	ID    string
-	Name  string
-	Price float64
+	ID    string  `json:"id"`
+	Name  string  `json:"name"`
+	Price float64 `json:"price"`
 }
 
-type CreateProductUsecase struct {
+type CreateProductUseCase struct {
 	ProductRepository entity.ProductRepository
 }
 
-func (u *CreateProductUsecase) Execute(input CreateProductInputDto) (*CreateProductOutputDto, error) {
+func NewCreateProductUseCase(productRepository entity.ProductRepository) *CreateProductUseCase {
+	return &CreateProductUseCase{
+		ProductRepository: productRepository,
+	}
+}
+
+func (u *CreateProductUseCase) Execute(input CreateProductInputDto) (*CreateProductOutputDto, error) {
 	product := entity.NewProduct(input.Name, input.Price)
 
 	err := u.ProductRepository.Create(product)
