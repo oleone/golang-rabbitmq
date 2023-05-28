@@ -3,7 +3,11 @@ Content-Type: application/json
 
 {
     "name": "Product",
-    "price": 100
+    "price": 100,
+    "category": "Category",
+    "sub_category": "Subcategory",
+    "offer_percertage": null,
+    "quantity": 89
 }
 
 ###
