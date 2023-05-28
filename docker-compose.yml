@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   # goapp:
@@ -21,12 +21,22 @@ services:
       MYSQL_DATABASE: products
       MYSQL_PASSWORD: root
     networks:
-      - default
+      - backend
     # extra_hosts:
     #   - "host.docker.internal:172.17.0.1"
-    # rabbitmq:
-    #   image: rabbitmq:3-management
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - backend
 
 networks:
-  default:
-    external: true
+  backend:
+    name: backend
