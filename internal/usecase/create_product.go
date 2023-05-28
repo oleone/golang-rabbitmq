@@ -5,14 +5,22 @@ import (
 )
 
 type CreateProductInputDto struct {
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
+	Name            string   `json:"name"`
+	Price           float64  `json:"price"`
+	Category        string   `json:"category"`
+	Subcategory     string   `json:"sub_category"`
+	OfferPercentage *float64 `json:"offer_quantity"`
+	Quantity        int      `json:"quantity"`
 }
 
 type CreateProductOutputDto struct {
-	ID    string  `json:"id"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
+	ID              string   `json:"id"`
+	Name            string   `json:"name"`
+	Price           float64  `json:"price"`
+	Category        string   `json:"category"`
+	Subcategory     string   `json:"sub_category"`
+	OfferPercentage *float64 `json:"offer_quantity"`
+	Quantity        int      `json:"quantity"`
 }
 
 type CreateProductUseCase struct {
@@ -26,7 +34,14 @@ func NewCreateProductUseCase(productRepository entity.ProductRepository) *Create
 }
 
 func (u *CreateProductUseCase) Execute(input CreateProductInputDto) (*CreateProductOutputDto, error) {
-	product := entity.NewProduct(input.Name, input.Price)
+	product := entity.NewProduct(
+		input.Name,
+		input.Price,
+		input.Category,
+		input.Subcategory,
+		input.OfferPercentage,
+		input.Quantity,
+	)
 
 	err := u.ProductRepository.Create(product)
 
@@ -35,8 +50,12 @@ func (u *CreateProductUseCase) Execute(input CreateProductInputDto) (*CreateProd
 	}
 
 	return &CreateProductOutputDto{
-		ID:    product.ID,
-		Name:  product.Name,
-		Price: product.Price,
+		ID:              product.ID,
+		Name:            product.Name,
+		Price:           product.Price,
+		Category:        product.Category,
+		Subcategory:     product.Subcategory,
+		OfferPercentage: product.OfferPercentage,
+		Quantity:        product.Quantity,
 	}, nil
 }

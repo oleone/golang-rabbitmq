@@ -2,6 +2,7 @@ package http_requests
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/oleone/golang-rabbitmq/internal/usecase"
@@ -25,6 +26,7 @@ func (h *ProductHandlers) CreateProductHandler(w http.ResponseWriter, r *http.Re
 	err := json.NewDecoder(r.Body).Decode(&input)
 
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -30,5 +31,6 @@ func main() {
 	r.Post("/products", productHandlers.CreateProductHandler)
 	r.Get("/products", productHandlers.ListProductHandler)
 
+	fmt.Println("Listening in port :8000")
 	http.ListenAndServe(":8000", r)
 }
