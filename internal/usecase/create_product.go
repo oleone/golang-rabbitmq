@@ -5,22 +5,22 @@ import (
 )
 
 type CreateProductInputDto struct {
-	Name            string   `json:"name"`
-	Price           float64  `json:"price"`
-	Category        string   `json:"category"`
-	Subcategory     string   `json:"sub_category"`
-	OfferPercentage *float64 `json:"offer_quantity"`
-	Quantity        int      `json:"quantity"`
+	Name            string  `json:"name"`
+	Price           float64 `json:"price"`
+	Category        string  `json:"category"`
+	Subcategory     string  `json:"sub_category"`
+	OfferPercentage float64 `json:"offer_quantity"`
+	Quantity        int     `json:"quantity"`
 }
 
 type CreateProductOutputDto struct {
-	ID              string   `json:"id"`
-	Name            string   `json:"name"`
-	Price           float64  `json:"price"`
-	Category        string   `json:"category"`
-	Subcategory     string   `json:"sub_category"`
-	OfferPercentage *float64 `json:"offer_quantity"`
-	Quantity        int      `json:"quantity"`
+	ID              string  `json:"id"`
+	Name            string  `json:"name"`
+	Price           float64 `json:"price"`
+	Category        string  `json:"category"`
+	Subcategory     string  `json:"sub_category"`
+	OfferPercentage float64 `json:"offer_quantity"`
+	Quantity        int     `json:"quantity"`
 }
 
 type CreateProductUseCase struct {

@@ -13,7 +13,7 @@ type Product struct {
 	Price            float64
 	Category         string
 	Subcategory      string
-	OfferPercentage  *float64
+	OfferPercentage  float64
 	Quantity         int
 	ReservadQuantity int
 }
@@ -23,7 +23,7 @@ func NewProduct(
 	price float64,
 	category string,
 	subcategory string,
-	offerPercentage *float64,
+	offerPercentage float64,
 	quantity int,
 ) *Product {
 	return &Product{
