@@ -11,13 +11,11 @@ type OrderRepositoryMysql struct {
 }
 
 func NewOrderRepositoryMysql(db *sql.DB) *OrderRepositoryMysql {
-	return &OrderRepositoryMysql{
-		DB: db,
-	}
+	return &OrderRepositoryMysql{DB: db}
 }
 
-func (r *OrderRepositoryMysql) Create(order entity.Order) error {
-	_, err := r.DB.Exec("insert into orders (amount, created_at, id, products, status, updated_at) values(?, ?, ?, ?, ?, ?)", order.Amount, order.CreatedAt, order.ID, order.Products, order.Status, order.UpdatedAt)
+func (r *OrderRepositoryMysql) Create(order *entity.Order) error {
+	_, err := r.DB.Exec("insert into orders (amount, created_at, id, status, updated_at) values(?, ?, ?, ?, ?)", order.Amount, order.CreatedAt, order.ID, order.Status, order.UpdatedAt)
 
 	if err != nil {
 		return err

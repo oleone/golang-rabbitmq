@@ -56,3 +56,47 @@ func (r *ProductRepositoryMysql) FindAll() ([]*entity.Product, error) {
 
 	return products, nil
 }
+
+func (r *ProductRepositoryMysql) FindByListId(listId []string) ([]*entity.Product, error) {
+
+	var list string
+	for i, id := range listId {
+		list += "'" + id + "'"
+
+		if i < len(listId)-1 {
+			list += ","
+		}
+
+	}
+
+	rows, err := r.DB.Query("select id, name, price, category, sub_category, offer_percentage, quantity, reservad_quantity from products where id in (" + list + ")")
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []*entity.Product
+
+	for rows.Next() {
+		var product entity.Product
+		err = rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Price,
+			&product.Category,
+			&product.Subcategory,
+			&product.OfferPercentage,
+			&product.Quantity,
+			&product.ReservadQuantity,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		products = append(products, &product)
+	}
+
+	return products, nil
+}

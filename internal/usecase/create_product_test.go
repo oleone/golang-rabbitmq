@@ -13,7 +13,7 @@ import (
 func TestCreateProductUseCase(t *testing.T) {
 	t.Log("CreateProductUseCase test initialized")
 
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/products")
+	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/ecommercex")
 
 	if err != nil {
 		t.Fail()

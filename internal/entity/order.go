@@ -38,7 +38,7 @@ type Order struct {
 	Amount    float64
 }
 
-func NewOrder(status string, products []Product) *Order {
+func NewOrder(products []Product) *Order {
 	var amount float64
 
 	for _, product := range products {

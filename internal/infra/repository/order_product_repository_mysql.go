@@ -16,7 +16,7 @@ func NewOrderProductRepositoryMysql(db *sql.DB) *OrderProductRepositoryMysql {
 	}
 }
 
-func (r *OrderProductRepositoryMysql) Create(orderProduct entity.OrderProduct) error {
+func (r *OrderProductRepositoryMysql) Create(orderProduct *entity.OrderProduct) error {
 	_, err := r.DB.Exec("insert into order_products (id, order_id, product_id) values (?, ?, ?)", orderProduct.ID, orderProduct.OrderID, orderProduct.ProductID)
 
 	if err != nil {

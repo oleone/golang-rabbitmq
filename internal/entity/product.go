@@ -5,6 +5,7 @@ import "github.com/google/uuid"
 type ProductRepository interface {
 	Create(product *Product) error
 	FindAll() ([]*Product, error)
+	FindByListId(listId []string) ([]*Product, error)
 }
 
 type Product struct {
