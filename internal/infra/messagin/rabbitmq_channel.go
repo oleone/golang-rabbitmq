@@ -3,7 +3,7 @@ package messagin
 import (
 	"fmt"
 
-	"github.com/oleone/golang-rabbitmq/internal/infra/drivers"
+	"github.com/oleone/marketplacex/internal/infra/drivers"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 

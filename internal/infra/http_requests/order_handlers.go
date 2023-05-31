@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/oleone/golang-rabbitmq/internal/usecase"
+	"github.com/oleone/marketplacex/internal/usecase"
 )
 
 type OrderHandlers struct {

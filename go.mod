@@ -1,4 +1,4 @@
-module github.com/oleone/golang-rabbitmq
+module github.com/oleone/marketplacex
 
 go 1.18
 
@@ -8,4 +8,4 @@ require (
 	github.com/google/uuid v1.3.0
 )
 
-require github.com/rabbitmq/amqp091-go v1.8.1 // indirect
+require github.com/rabbitmq/amqp091-go v1.8.1

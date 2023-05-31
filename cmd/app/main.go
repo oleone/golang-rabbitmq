@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/oleone/golang-rabbitmq/internal/infra/drivers"
-	"github.com/oleone/golang-rabbitmq/internal/infra/http_requests"
-	"github.com/oleone/golang-rabbitmq/internal/infra/messagin"
-	"github.com/oleone/golang-rabbitmq/internal/infra/repository"
-	"github.com/oleone/golang-rabbitmq/internal/usecase"
+	"github.com/oleone/marketplacex/internal/infra/drivers"
+	"github.com/oleone/marketplacex/internal/infra/http_requests"
+	"github.com/oleone/marketplacex/internal/infra/messagin"
+	"github.com/oleone/marketplacex/internal/infra/repository"
+	"github.com/oleone/marketplacex/internal/usecase"
 )
 
 func main() {

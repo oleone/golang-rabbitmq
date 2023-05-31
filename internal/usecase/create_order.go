@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/oleone/golang-rabbitmq/internal/entity"
+	"github.com/oleone/marketplacex/internal/entity"
 )
 
 type CreateOrderInputDto struct {

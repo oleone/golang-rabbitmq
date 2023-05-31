@@ -5,9 +5,9 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/oleone/golang-rabbitmq/internal/infra/drivers"
-	"github.com/oleone/golang-rabbitmq/internal/infra/repository"
-	"github.com/oleone/golang-rabbitmq/internal/usecase"
+	"github.com/oleone/marketplacex/internal/infra/drivers"
+	"github.com/oleone/marketplacex/internal/infra/repository"
+	"github.com/oleone/marketplacex/internal/usecase"
 )
 
 func TestCreateProductUseCase(t *testing.T) {

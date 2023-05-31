@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/oleone/golang-rabbitmq/internal/entity"
+	"github.com/oleone/marketplacex/internal/entity"
 )
 
 type ProductRepositoryMysql struct {

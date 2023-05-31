@@ -3,7 +3,7 @@ package entity_test
 import (
 	"testing"
 
-	"github.com/oleone/golang-rabbitmq/internal/entity"
+	"github.com/oleone/marketplacex/internal/entity"
 )
 
 func TestNewProduct(t *testing.T) {
