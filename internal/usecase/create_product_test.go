@@ -1,11 +1,11 @@
 package usecase_test
 
 import (
-	"database/sql"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"github.com/oleone/golang-rabbitmq/internal/infra/drivers"
 	"github.com/oleone/golang-rabbitmq/internal/infra/repository"
 	"github.com/oleone/golang-rabbitmq/internal/usecase"
 )
@@ -13,13 +13,7 @@ import (
 func TestCreateProductUseCase(t *testing.T) {
 	t.Log("CreateProductUseCase test initialized")
 
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/ecommercex")
-
-	if err != nil {
-		t.Fail()
-		t.Log(err)
-	}
-	defer db.Close()
+	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "ecommercex")
 
 	input := usecase.CreateProductInputDto{
 		Name:            "Product 1",
@@ -30,10 +24,10 @@ func TestCreateProductUseCase(t *testing.T) {
 		Price:           152.85,
 	}
 
-	repository := repository.NewProductRepositoryMysql(db)
+	repository := repository.NewProductRepositoryMysql(mySqlDriver.DB)
 	createProductUsecase := usecase.NewCreateProductUseCase(repository)
 
-	_, err = createProductUsecase.Execute(input)
+	_, err := createProductUsecase.Execute(input)
 
 	if err != nil {
 		t.Fail()

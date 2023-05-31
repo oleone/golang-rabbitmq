@@ -1,9 +1,9 @@
 package usecase_test
 
 import (
-	"database/sql"
 	"testing"
 
+	"github.com/oleone/golang-rabbitmq/internal/infra/drivers"
 	"github.com/oleone/golang-rabbitmq/internal/infra/repository"
 	"github.com/oleone/golang-rabbitmq/internal/usecase"
 )
@@ -12,17 +12,11 @@ func TestCreateOrder(t *testing.T) {
 
 	t.Log("TestCreateOrder initialized")
 
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/ecommercex")
+	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "ecommercex")
 
-	if err != nil {
-		t.Fail()
-		t.Log(err)
-	}
-	defer db.Close()
-
-	createOrderRepository := repository.NewOrderRepositoryMysql(db)
-	productRepository := repository.NewProductRepositoryMysql(db)
-	orderProductRepository := repository.NewOrderProductRepositoryMysql(db)
+	createOrderRepository := repository.NewOrderRepositoryMysql(mySqlDriver.DB)
+	productRepository := repository.NewProductRepositoryMysql(mySqlDriver.DB)
+	orderProductRepository := repository.NewOrderProductRepositoryMysql(mySqlDriver.DB)
 
 	orderUsecase := usecase.NewCreateOrderUseCase(createOrderRepository, productRepository, orderProductRepository)
 	createProductUsecase := usecase.NewCreateProductUseCase(productRepository)
@@ -37,11 +31,15 @@ func TestCreateOrder(t *testing.T) {
 		OfferPercentage: 0,
 		Quantity:        265,
 	}
-	var productCreatedOutput *usecase.CreateProductOutputDto
 	var productListId []string
 
 	for i := 0; i <= 4; i++ {
-		productCreatedOutput, err = createProductUsecase.Execute(productInput)
+		productCreatedOutput, err := createProductUsecase.Execute(productInput)
+
+		if err != nil {
+			t.Fail()
+			t.Log(err)
+		}
 
 		productListId = append(productListId, productCreatedOutput.ID)
 
@@ -61,7 +59,7 @@ func TestCreateOrder(t *testing.T) {
 		Products: products,
 	}
 
-	_, err = orderUsecase.Execute(input, productListId)
+	_, err := orderUsecase.Execute(input, productListId)
 
 	if err != nil {
 		t.Fail()
