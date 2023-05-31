@@ -11,6 +11,38 @@ Content-Type: application/json
 }
 
 ###
-
 GET http://localhost:8000/products
+Content-Type: application/json
+
+###
+POST http://localhost:8000/orders
+Content-Type: application/json
+
+{
+    "products": [
+        {
+            "id": "00d84160-f94e-4857-b4ce-5773a8ab2184",
+            "name": "Product",
+            "price": 25.8,
+            "category": "Caterogy",
+            "sub_category": "Subcategory",
+            "offer_percentage": 0,
+            "quantity": 265,
+            "reservad_quantity": 0
+        },
+        {
+            "id": "0660b1f7-d6d6-4b32-833f-7d473ee5df7a",
+            "name": "Product",
+            "price": 25.8,
+            "category": "Caterogy",
+            "sub_category": "Subcategory",
+            "offer_percentage": 0,
+            "quantity": 265,
+            "reservad_quantity": 0
+        }
+    ]
+}
+
+###
+GET http://localhost:8000/orders
 Content-Type: application/json

@@ -18,7 +18,7 @@ func TestCreateOrder(t *testing.T) {
 	productRepository := repository.NewProductRepositoryMysql(mySqlDriver.DB)
 	orderProductRepository := repository.NewOrderProductRepositoryMysql(mySqlDriver.DB)
 
-	orderUsecase := usecase.NewCreateOrderUseCase(createOrderRepository, productRepository, orderProductRepository)
+	createOrderUsecase := usecase.NewCreateOrderUseCase(createOrderRepository, productRepository, orderProductRepository)
 	createProductUsecase := usecase.NewCreateProductUseCase(productRepository)
 
 	var products []*usecase.ListProductsOutputDto
@@ -59,7 +59,7 @@ func TestCreateOrder(t *testing.T) {
 		Products: products,
 	}
 
-	_, err := orderUsecase.Execute(input, productListId)
+	_, err := createOrderUsecase.Execute(input)
 
 	if err != nil {
 		t.Fail()

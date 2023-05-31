@@ -34,9 +34,15 @@ func NewCreateOrderUseCase(orderRepository entity.OrderRepository, productReposi
 	}
 }
 
-func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto, productListId []string) (*CreateOrderOutputDto, error) {
+func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto) (*CreateOrderOutputDto, error) {
 	listProductByIdUsecase := NewListProductByListIdUseCase(u.ProductRepository)
 	orderProductUsecase := NewOrderProductUseCase(u.OrderProductRepository)
+
+	var productListId []string
+
+	for _, product := range input.Products {
+		productListId = append(productListId, product.ID)
+	}
 
 	listProductsOutput, err := listProductByIdUsecase.Execute(productListId)
 	var listProducts []entity.Product
@@ -44,14 +50,12 @@ func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto, productListId []
 	for _, product := range listProductsOutput {
 		fmt.Println(product.ID)
 		listProducts = append(listProducts, entity.Product{
-			ID:               product.ID,
-			Name:             product.Name,
-			Price:            product.Price,
-			Category:         product.Category,
-			Subcategory:      product.Subcategory,
-			OfferPercentage:  product.OfferPercentage,
-			Quantity:         product.Quantity,
-			ReservadQuantity: product.ReservadQuantity,
+			ID:              product.ID,
+			Name:            product.Name,
+			Price:           product.Price,
+			Category:        product.Category,
+			Subcategory:     product.Subcategory,
+			OfferPercentage: product.OfferPercentage,
 		})
 	}
 	order := entity.NewOrder(listProducts)
