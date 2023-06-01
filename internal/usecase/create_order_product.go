@@ -7,11 +7,13 @@ import (
 type OrderProductInputDto struct {
 	OrderID   string
 	ProductID string
+	Quantity  int
 }
 
 type OrderProductOutputDto struct {
 	OrderID   string
 	ProductID string
+	Quantity  int
 }
 
 type CreateOrderProductUseCase struct {
@@ -25,7 +27,7 @@ func NewOrderProductUseCase(repository entity.OrderProductRepository) *CreateOrd
 }
 
 func (u *CreateOrderProductUseCase) Execute(input *OrderProductInputDto) (*OrderProductOutputDto, error) {
-	orderProduct := entity.NewOrderProduct(input.OrderID, input.ProductID)
+	orderProduct := entity.NewOrderProduct(input.OrderID, input.ProductID, input.Quantity)
 
 	err := u.OrderProductRepository.Create(orderProduct)
 
@@ -36,5 +38,6 @@ func (u *CreateOrderProductUseCase) Execute(input *OrderProductInputDto) (*Order
 	return &OrderProductOutputDto{
 		OrderID:   input.OrderID,
 		ProductID: input.ProductID,
+		Quantity:  input.Quantity,
 	}, nil
 }

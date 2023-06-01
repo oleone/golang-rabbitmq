@@ -30,27 +30,37 @@ type OrderRepository interface {
 }
 
 type Order struct {
-	ID        string
-	Status    string
-	Products  []Product
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Amount    float64
+	ID         string
+	Status     string
+	OrderItems []OrderItem
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	Amount     float64
 }
 
-func NewOrder(products []Product) *Order {
+type OrderItem struct {
+	Quantity           int
+	ProductName        string
+	ProductID          string
+	UnitCost           float64
+	TotalCost          float64
+	ShippingCost       float64
+	DiscountPercentage float64
+}
+
+func NewOrder(orderItems []OrderItem) *Order {
 	var amount float64
 
-	for _, product := range products {
-		amount += product.Price
+	for _, orderItem := range orderItems {
+		amount += orderItem.TotalCost
 	}
 
 	return &Order{
-		ID:        uuid.New().String(),
-		Status:    OrderStatus.Created,
-		Products:  products,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Amount:    amount,
+		ID:         uuid.New().String(),
+		Status:     OrderStatus.Created,
+		OrderItems: orderItems,
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
+		Amount:     amount,
 	}
 }

@@ -13,7 +13,7 @@ import (
 func TestCreateProductUseCase(t *testing.T) {
 	t.Log("CreateProductUseCase test initialized")
 
-	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "ecommercex")
+	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "marketplacex")
 
 	input := usecase.CreateProductInputDto{
 		Name:            "Product 1",

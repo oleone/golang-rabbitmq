@@ -1,23 +1,35 @@
 package usecase
 
 import (
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/oleone/marketplacex/internal/entity"
 )
 
 type CreateOrderInputDto struct {
-	Products []*ListProductsOutputDto
+	OrderItems []*OrderItemInputDto
 }
 
 type CreateOrderOutputDto struct {
-	ID        string
-	Status    string
-	Products  []entity.Product
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Amount    float64
+	ID         string               `json:"id"`
+	Status     string               `json:"status"`
+	OrderItems []OrderItemOutputDto `json:"order_items"`
+	CreatedAt  time.Time            `json:"created_at"`
+	UpdatedAt  time.Time            `json:"updated_at"`
+	Amount     float64              `json:"amount"`
+}
+
+type OrderItemInputDto struct {
+	ProductID    string  `json:"product_id"`
+	Quantity     int     `json:"quantity"`
+	ShippingCost float64 `json:"shipping_cost"`
+}
+
+type OrderItemOutputDto struct {
+	ProductID    string  `json:"product_id"`
+	Quantity     int     `json:"quantity"`
+	ShippingCost float64 `json:"shipping_cost"`
 }
 
 type CreateOrderUseCase struct {
@@ -40,45 +52,61 @@ func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto) (*CreateOrderOut
 
 	var productListId []string
 
-	for _, product := range input.Products {
-		productListId = append(productListId, product.ID)
+	for _, orderItems := range input.OrderItems {
+		productListId = append(productListId, orderItems.ProductID)
 	}
 
 	listProductsOutput, err := listProductByIdUsecase.Execute(productListId)
-	var listProducts []entity.Product
+
+	if len(listProductsOutput) == 0 {
+		return nil, errors.New("ProductIDs is not found")
+	}
+
+	var listOrderItems []entity.OrderItem
 
 	for _, product := range listProductsOutput {
-		fmt.Println(product.ID)
-		listProducts = append(listProducts, entity.Product{
-			ID:              product.ID,
-			Name:            product.Name,
-			Price:           product.Price,
-			Category:        product.Category,
-			Subcategory:     product.Subcategory,
-			OfferPercentage: product.OfferPercentage,
+		listOrderItems = append(listOrderItems, entity.OrderItem{
+			ProductID:          product.ID,
+			ProductName:        product.Name,
+			Quantity:           2,
+			UnitCost:           25.5,
+			TotalCost:          28,
+			ShippingCost:       15,
+			DiscountPercentage: 3,
 		})
 	}
-	order := entity.NewOrder(listProducts)
+	order := entity.NewOrder(listOrderItems)
 	err = u.OrderRepository.Create(order)
 
 	if err != nil {
 		return nil, err
 	}
 
-	for _, product := range listProducts {
+	for _, orderItem := range listOrderItems {
 		var orderProduct = OrderProductInputDto{
 			OrderID:   order.ID,
-			ProductID: product.ID,
+			ProductID: orderItem.ProductID,
+			Quantity:  orderItem.Quantity,
 		}
 		orderProductUsecase.Execute(&orderProduct)
 	}
 
+	var orderItemsOutput []OrderItemOutputDto
+
+	for _, lOrderItem := range listOrderItems {
+		orderItemsOutput = append(orderItemsOutput, OrderItemOutputDto{
+			ProductID:    lOrderItem.ProductID,
+			Quantity:     lOrderItem.Quantity,
+			ShippingCost: lOrderItem.ShippingCost,
+		})
+	}
+
 	return &CreateOrderOutputDto{
-		ID:        order.ID,
-		Status:    order.Status,
-		Products:  order.Products,
-		CreatedAt: order.CreatedAt,
-		UpdatedAt: order.UpdatedAt,
-		Amount:    order.Amount,
+		ID:         order.ID,
+		Status:     order.Status,
+		OrderItems: orderItemsOutput,
+		CreatedAt:  order.CreatedAt,
+		UpdatedAt:  order.UpdatedAt,
+		Amount:     order.Amount,
 	}, nil
 }

@@ -1,7 +1,9 @@
 # docker compose exec mysql bash
-# mysql -uroot -p ecommercex
+# mysql -uroot -p marketplacex
+use markertplacex;
+
 create table
-    products (
+    products(
         id VARCHAR(255),
         name VARCHAR(255),
         price FLOAT,
@@ -28,6 +30,7 @@ create table
         id VARCHAR(255),
         order_id VARCHAR(255),
         product_id VARCHAR(255),
+        quantity INT,
         primary key(id),
         foreign key (order_id) REFERENCES orders(id),
         foreign key (product_id) REFERENCES products(id)

@@ -13,15 +13,13 @@ type MySqlDriver struct {
 
 func NewMySqlDriver(username string, password string, ipAddress string, port string, dbName string) *MySqlDriver {
 
-	fmt.Printf("Connecting to MySQL in address %s:%s \n", ipAddress, port)
-
 	db, err := sql.Open("mysql", username+":"+password+"@tcp("+ipAddress+":"+port+")/"+dbName)
 
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Connected to MySQL in %s:%s with success!\n", ipAddress, port)
+	fmt.Print("MySqlDriver connected\n")
 
 	return &MySqlDriver{
 		DB: db,
@@ -30,4 +28,5 @@ func NewMySqlDriver(username string, password string, ipAddress string, port str
 
 func (d *MySqlDriver) Close() {
 	d.DB.Close()
+	fmt.Println("MySqlDriver closed")
 }

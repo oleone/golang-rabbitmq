@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "ecommercex")
+	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "marketplacex")
 	defer mySqlDriver.Close()
 
 	rabbitMqDriver := drivers.NewRabbitQMDriver("admin", "admin", "localhost", "5672")

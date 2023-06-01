@@ -10,62 +10,40 @@ import (
 
 func TestCreateOrder(t *testing.T) {
 
-	t.Log("TestCreateOrder initialized")
+	t.Log("TestCreateOrder with ProductIDs not found")
 
-	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "ecommercex")
+	mySqlDriver := drivers.NewMySqlDriver("root", "root", "localhost", "3306", "marketplacex")
+	defer mySqlDriver.Close()
 
 	createOrderRepository := repository.NewOrderRepositoryMysql(mySqlDriver.DB)
 	productRepository := repository.NewProductRepositoryMysql(mySqlDriver.DB)
 	orderProductRepository := repository.NewOrderProductRepositoryMysql(mySqlDriver.DB)
 
 	createOrderUsecase := usecase.NewCreateOrderUseCase(createOrderRepository, productRepository, orderProductRepository)
-	createProductUsecase := usecase.NewCreateProductUseCase(productRepository)
 
-	var products []*usecase.ListProductsOutputDto
+	productListId := []string{"1585222"}
 
-	productInput := usecase.CreateProductInputDto{
-		Name:            "Product",
-		Price:           25.80,
-		Category:        "Caterogy",
-		Subcategory:     "Subcategory",
-		OfferPercentage: 0,
-		Quantity:        265,
-	}
-	var productListId []string
+	var orderItems []*usecase.OrderItemInputDto
 
-	for i := 0; i <= 4; i++ {
-		productCreatedOutput, err := createProductUsecase.Execute(productInput)
-
-		if err != nil {
-			t.Fail()
-			t.Log(err)
-		}
-
-		productListId = append(productListId, productCreatedOutput.ID)
-
-		products = append(products, &usecase.ListProductsOutputDto{
-			ID:               productCreatedOutput.ID,
-			Name:             productCreatedOutput.Name,
-			Price:            productCreatedOutput.Price,
-			Category:         productCreatedOutput.Category,
-			Subcategory:      productCreatedOutput.Subcategory,
-			OfferPercentage:  productCreatedOutput.OfferPercentage,
-			Quantity:         productCreatedOutput.Quantity,
-			ReservadQuantity: productCreatedOutput.ReservadQuantity,
+	for i := 0; i <= len(productListId)-1; i++ {
+		orderItems = append(orderItems, &usecase.OrderItemInputDto{
+			ProductID:    productListId[i],
+			Quantity:     4,
+			ShippingCost: 25.8,
 		})
 	}
 
 	input := usecase.CreateOrderInputDto{
-		Products: products,
+		OrderItems: orderItems,
 	}
 
 	_, err := createOrderUsecase.Execute(input)
 
 	if err != nil {
+		t.Log("TestCreateOrder with ProductIDs not found finality with success")
+	} else {
 		t.Fail()
 		t.Log(err)
-	} else {
-		t.Log("TestCreateOrder finality with success")
 	}
 
 }
