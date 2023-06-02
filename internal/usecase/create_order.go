@@ -8,7 +8,7 @@ import (
 )
 
 type CreateOrderInputDto struct {
-	OrderItems []*OrderItemInputDto
+	OrderItems []*OrderItemInputDto `json:"order_items"`
 }
 
 type CreateOrderOutputDto struct {
@@ -64,18 +64,19 @@ func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto) (*CreateOrderOut
 
 	var listOrderItems []entity.OrderItem
 
-	for _, product := range listProductsOutput {
+	for i, product := range listProductsOutput {
 		listOrderItems = append(listOrderItems, entity.OrderItem{
 			ProductID:          product.ID,
 			ProductName:        product.Name,
-			Quantity:           2,
-			UnitCost:           25.5,
-			TotalCost:          28,
-			ShippingCost:       15,
-			DiscountPercentage: 3,
+			Quantity:           input.OrderItems[i].Quantity,
+			UnitCost:           product.Price,
+			TotalCost:          product.Price * float64(input.OrderItems[i].Quantity),
+			ShippingCost:       input.OrderItems[i].ShippingCost,
+			DiscountPercentage: product.OfferPercentage,
 		})
 	}
 	order := entity.NewOrder(listOrderItems)
+	order.SetToPendingPayment()
 	err = u.OrderRepository.Create(order)
 
 	if err != nil {

@@ -9,7 +9,7 @@ type CreateProductInputDto struct {
 	Price           float64 `json:"price"`
 	Category        string  `json:"category"`
 	Subcategory     string  `json:"sub_category"`
-	OfferPercentage float64 `json:"offer_quantity"`
+	OfferPercentage float64 `json:"offer_percentage"`
 	Quantity        int     `json:"quantity"`
 }
 
@@ -19,7 +19,7 @@ type CreateProductOutputDto struct {
 	Price            float64 `json:"price"`
 	Category         string  `json:"category"`
 	Subcategory      string  `json:"sub_category"`
-	OfferPercentage  float64 `json:"offer_quantity"`
+	OfferPercentage  float64 `json:"offer_percentage"`
 	Quantity         int     `json:"quantity"`
 	ReservadQuantity int     `json:"reservad_quantity"`
 }

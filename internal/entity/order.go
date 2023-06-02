@@ -9,18 +9,20 @@ import (
 var OrderStatus = newOrderStatus()
 
 type orderStatus struct {
-	Approved string
-	Created  string
-	Failed   string
-	Pending  string
+	Approved       string
+	Created        string
+	Failed         string
+	Pending        string
+	PendingPayment string
 }
 
 func newOrderStatus() *orderStatus {
 	return &orderStatus{
-		Approved: "approved",
-		Created:  "created",
-		Failed:   "failed",
-		Pending:  "pending",
+		Approved:       "approved",
+		Created:        "created",
+		Failed:         "failed",
+		Pending:        "pending",
+		PendingPayment: "pending_payment",
 	}
 }
 
@@ -63,4 +65,8 @@ func NewOrder(orderItems []OrderItem) *Order {
 		UpdatedAt:  time.Now(),
 		Amount:     amount,
 	}
+}
+
+func (o *Order) SetToPendingPayment() {
+	o.Status = OrderStatus.PendingPayment
 }
